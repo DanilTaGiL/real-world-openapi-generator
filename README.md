@@ -1,6 +1,6 @@
 # Examples of usage openapi-generator
 
-##Modules:
+## Modules:
 + `backend` - simple spring backend for experiments and as source of OAS for other modules
 + `custom-generator` - TODO
 + `tests-with-template` - customization by modifying templates of existed generator, with test examples
