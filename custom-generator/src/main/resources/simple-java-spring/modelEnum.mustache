@@ -1,0 +1,11 @@
+@AllArgsConstructor
+public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} {
+    {{#allowableValues}}
+    {{#values}}
+    {{.}}("{{.}}"){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+    {{/values}}
+    {{/allowableValues}}
+
+    @Getter
+    private String value;
+}

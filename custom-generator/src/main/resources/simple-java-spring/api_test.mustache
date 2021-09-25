@@ -1,0 +1,60 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+import {{apiPackage}}.{{classname}};
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.filter.log.ErrorLoggingFilter;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.beans.factory.annotation.Autowired;
+
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+{{/fullJavaUtil}}
+
+/**
+ * API tests for {{classname}}
+ */
+@Disabled
+@Slf4j
+@SpringBootTest
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+public class {{classname}}Test {
+
+    @Autowired      // don't need initialize api object
+    private {{classname}} api;
+
+{{#operations}}
+{{#operation}}
+
+    {{#responses}}
+    /**
+     * {{message}}
+     */
+    @Test
+    public void shouldSee{{code}}After{{operationIdCamelCase}}() {
+        {{#allParams}}
+        {{#isHeaderParam}}String {{paramName}} = null;{{/isHeaderParam}}{{^isHeaderParam}}{{{dataType}}} {{paramName}} = null;{{/isHeaderParam}}
+        {{/allParams}}
+        var response = api.{{operationId}}(){{#allParams}}{{#required}}{{#isPathParam}}
+                .{{paramName}}Path({{paramName}}){{/isPathParam}}{{#isQueryParam}}
+                .{{paramName}}Query({{paramName}}){{/isQueryParam}}{{#isFormParam}}{{^isFile}}
+                .{{paramName}}Form({{paramName}}){{/isFile}}{{/isFormParam}}{{#isFormParam}}{{#isFile}}
+                .{{paramName}}MultiPart({{paramName}}){{/isFile}}{{/isFormParam}}{{#isHeaderParam}}
+                .{{paramName}}Header({{paramName}}){{/isHeaderParam}}{{#isBodyParam}}
+                .body({{paramName}}){{/isBodyParam}}{{/required}}{{/allParams}}.executeAs(r -> r.prettyPeek());
+        // TODO: test validations
+    }
+
+    {{/responses}}
+{{/operation}}
+{{/operations}}
+}

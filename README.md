@@ -6,4 +6,4 @@
 + `tests-with-template` - customization by modifying templates of existed generator, with test examples
 + `tests-with-custom-generator` - TODO
 
-p.s. for more details read README of each module
+p.s. for more details read README of each module. it contains detailed explanation

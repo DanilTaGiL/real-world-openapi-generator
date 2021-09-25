@@ -1,0 +1,14 @@
+package {{package}};
+
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.*;
+import lombok.*;
+
+{{#models}}
+{{#model}}
+{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>pojo}}{{/isEnum}}
+{{/model}}
+{{/models}}

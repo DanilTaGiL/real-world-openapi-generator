@@ -13,26 +13,19 @@
 
 package com.example.generated;
 
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.filter.log.ErrorLoggingFilter;
+import com.example.generated.api.PrefixUserControllerSuffix;
+import com.example.generated.model.User;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
-import org.example.ApiClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-
-import org.openapitools.client.api.UserControllerApi;
-import org.openapitools.client.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.function.Function;
 
-import static io.restassured.config.ObjectMapperConfig.objectMapperConfig;
-import static io.restassured.config.RestAssuredConfig.config;
-import static org.example.GsonObjectMapper.gson;
 
 /**
  * API tests for UserControllerApi
@@ -40,10 +33,11 @@ import static org.example.GsonObjectMapper.gson;
 @Slf4j
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Disabled
 public class UserControllerApiTest {
 
-    private UserControllerApi api;
+    @Autowired                              // don't need initialize api object
+    private PrefixUserControllerSuffix api; // prefix/suffix feature
+
     private User testUser;
 
     private final Function<Response, Response> successAssertions = r -> {
@@ -62,17 +56,14 @@ public class UserControllerApiTest {
 
     @BeforeEach
     public void createApi() {
-        api = ApiClient.api(ApiClient.Config.apiConfig().reqSpecSupplier(
-                () -> new RequestSpecBuilder()
-                        .setConfig(config().objectMapperConfig(objectMapperConfig().defaultObjectMapper(gson())))
-                        .addFilter(new ErrorLoggingFilter())
-                        .setBaseUri("http://localhost:8080"))).userController();
-
         User user = new User();
         user.setAge(25L);
         user.setFirstName("Test");
         user.setLastName("OfTest");
-        var response = api.addNewUser().body(user).executeAs(successAssertions);
+        var response = api
+                .addNewUser()
+                .body(user)
+                .executeAs(successAssertions);
 
         testUser = response.getResult();
     }

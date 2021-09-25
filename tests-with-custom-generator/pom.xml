@@ -11,10 +11,10 @@
     </parent>
 
     <groupId>com.example</groupId>
-    <artifactId>tests-with-template</artifactId>
+    <artifactId>test-with-custom-generator</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>test-with-template</name>
-    <description>example of openapi-generator usage with template modifying</description>
+    <name>test-with-custom-generator</name>
+    <description>example of openapi-generator usage with custom generator</description>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -60,25 +60,8 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.10</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <!-- dependencies of generated code -->
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.8.8</version>
-        </dependency>
-        <dependency>
-            <groupId>io.gsonfire</groupId>
-            <artifactId>gson-fire</artifactId>
-            <version>1.8.4</version>
-        </dependency>
-        <dependency>
-            <groupId>com.squareup.okio</groupId>
-            <artifactId>okio</artifactId>
-            <version>1.17.5</version>
+            <version>1.18.20</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -140,20 +123,18 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <!--  this don't work, just for example. worked example you can see in 'tests-with-custom-generator' -->
+                            <!-- working example of prefix/suffix -->
                             <configOptions>
                                 <apiNamePrefix>Prefix</apiNamePrefix>
                                 <apiNameSuffix>Suffix</apiNameSuffix>
+                                <restassuredGlobalSpec>true</restassuredGlobalSpec>
                             </configOptions>
 
                             <invokerPackage>com.example.generated</invokerPackage>
                             <apiPackage>com.example.generated.api</apiPackage>
                             <modelPackage>com.example.generated.model</modelPackage>
 
-                            <generatorName>java</generatorName>
-                            <library>rest-assured</library>
-
-                            <templateDirectory>${project.basedir}/src/main/resources/templates</templateDirectory>
+                            <generatorName>simple-java-spring</generatorName>
 
                             <inputSpec>${project.basedir}/src/main/resources/openapi-backend.json</inputSpec>
                             <output>${project.build.directory}/generated-sources/openapi/backend</output>
@@ -164,6 +145,13 @@
                         </configuration>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.example</groupId>
+                        <artifactId>simple-java-spring-openapi-generator</artifactId>
+                        <version>1.0.0</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>

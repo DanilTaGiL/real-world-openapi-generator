@@ -1,0 +1,38 @@
+package {{configPackage}};
+
+import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.filter.log.ErrorLoggingFilter;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
+import io.restassured.specification.RequestSpecification;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class RestAssuredConfig {
+    private static final String CONTROLLER_URL = "{{{basePath}}}";
+
+    @Bean
+    public RequestSpecification requestSpecification() {
+        RequestSpecBuilder builder = new RequestSpecBuilder();
+
+        builder.setBaseUri(CONTROLLER_URL);
+        builder.setRelaxedHTTPSValidation();
+
+        builder.setContentType("application/json");
+        builder.setAccept("*/*");
+
+        // default filters
+        builder.addFilter(new RequestLoggingFilter());
+        builder.addFilter(new ResponseLoggingFilter());
+        builder.addFilter(new ErrorLoggingFilter());
+
+        var requestSpec = builder.build();
+
+        // for using set configOptions.restassuredGlobalSpec == true
+        {{^restassuredGlobalSpec}}//{{/restassuredGlobalSpec}}RestAssured.requestSpecification = requestSpec;
+
+        return requestSpec;
+    }
+}
