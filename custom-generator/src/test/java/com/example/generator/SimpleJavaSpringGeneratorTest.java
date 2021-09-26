@@ -25,11 +25,11 @@ public class SimpleJavaSpringGeneratorTest {
     // https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-cli/src/main/java/org/openapitools/codegen/cmd/Generate.java
 
     final CodegenConfigurator configurator = new CodegenConfigurator()
-//            .setVerbose(true) // for debug output
+            .setVerbose(true) // for debug output
               .setGeneratorName("simple-java-spring") // use this codegen library
                .setInputSpec("http://localhost:8080/v3/api-docs") // or from the server
 //               .setInputSpec("https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml") // or from the server
-//              .setInputSpec("src/test/resources/openapi-backend.json") // sample OpenAPI file
+//              .setInputSpec("src/main/resources/openapi-backend.json") // sample OpenAPI file
             .setOutputDir("target/generated-sources/test/simple-java-spring"); // output directory
 
     final ClientOptInput clientOptInput = configurator.toClientOptInput();

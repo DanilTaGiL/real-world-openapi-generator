@@ -18,9 +18,6 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
     {{#description}}
     @Schema(description = "{{.}}")
     {{/description}}
-    {{#vendorExtensions.toStringExclude}}
-    @lombok.ToString.Exclude
-    {{/vendorExtensions.toStringExclude}}
     {{#isMap}}
     {{#items.isContainer}}
     private {{{datatypeWithEnum}}}<String, {{{items.datatypeWithEnum}}}<{{items.complexType}}>> {{name}}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/required}}{{^required}} = null{{/required}};

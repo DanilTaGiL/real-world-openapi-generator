@@ -6,6 +6,7 @@ import com.jayway.jsonpath.TypeRef;
 
 import io.restassured.builder.MultiPartSpecBuilder;
 import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
@@ -68,10 +69,12 @@ public class {{classname}} {
         public static final String REQ_URI = "{{path}}";
 
         private RequestSpecBuilder reqSpec;
+        private ResponseSpecBuilder respSpec;
 
         public {{operationIdCamelCase}}Operation(RequestSpecification spec) {
             this.reqSpec = new RequestSpecBuilder();
             reqSpec.addRequestSpecification(spec);
+            this.respSpec = new ResponseSpecBuilder();
         }
 
         /**
@@ -82,16 +85,16 @@ public class {{classname}} {
          */
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(
-                given()
-                .spec(reqSpec.build())
+                given().spec(reqSpec.build())
+                .expect().spec(respSpec.build())
                 .when()
                 .request(REQ_METHOD, REQ_URI)
             );
         }
 
         public Response execute() {
-            return given()
-                .spec(reqSpec.build())
+            return given().spec(reqSpec.build())
+                .expect().spec(respSpec.build())
                 .when()
                 .request(REQ_METHOD, REQ_URI);
         }
@@ -102,13 +105,13 @@ public class {{classname}} {
         * @param handler handler
         * @return {{returnType}}<{{{returnBaseType}}}>
         */
-        public {{{returnType}}}<{{{returnBaseType}}}> executeAs(Function<Response, Response> handler) {
-            TypeRef<{{{returnType}}}<{{{returnBaseType}}}>> type = new TypeRef<{{{returnType}}}<{{{returnBaseType}}}>>(){};
+        public {{{returnType}}}<{{#lambda.titlecase}}{{{returnBaseType}}}{{/lambda.titlecase}}> executeAs(Function<Response, Response> handler) {
+            var type = new TypeRef<{{{returnType}}}<{{#lambda.titlecase}}{{{returnBaseType}}}{{/lambda.titlecase}}>>(){};
             return execute(handler).as(type.getType());
         }
 
-        public {{{returnType}}}<{{{returnBaseType}}}> executeAs() {
-            TypeRef<{{{returnType}}}<{{{returnBaseType}}}>> type = new TypeRef<{{{returnType}}}<{{{returnBaseType}}}>>(){};
+        public {{{returnType}}}<{{#lambda.titlecase}}{{{returnBaseType}}}{{/lambda.titlecase}}> executeAs() {
+            var type = new TypeRef<{{{returnType}}}<{{#lambda.titlecase}}{{{returnBaseType}}}{{/lambda.titlecase}}>>(){};
             return execute().as(type.getType());
         }
         {{/isArray}}
@@ -160,7 +163,7 @@ public class {{classname}} {
          * @param {{paramName}} ({{dataType}}) {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
          * @return operation
          */
-        public {{operationIdCamelCase}}Operation body({{{dataType}}} {{paramName}}) {
+        public {{operationIdCamelCase}}Operation body(Object {{paramName}}) {
             reqSpec.setBody({{paramName}});
             return this;
         }
@@ -212,6 +215,16 @@ public class {{classname}} {
         */
         public {{operationIdCamelCase}}Operation reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
             reqSpecCustomizer.accept(reqSpec);
+            return this;
+        }
+
+        /**
+        * Customize response specification
+        * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
+        * @return operation
+        */
+        public {{operationIdCamelCase}}Operation respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
             return this;
         }
     }

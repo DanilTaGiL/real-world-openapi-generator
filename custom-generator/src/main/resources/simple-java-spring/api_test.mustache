@@ -1,7 +1,6 @@
 package {{package}};
 
-{{#imports}}import {{import}};
-{{/imports}}
+import {{modelPackage}}.*;
 import {{apiPackage}}.{{classname}};
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.ErrorLoggingFilter;
@@ -53,7 +52,6 @@ public class {{classname}}Test {
                 .body({{paramName}}){{/isBodyParam}}{{/required}}{{/allParams}}.executeAs(r -> r.prettyPeek());
         // TODO: test validations
     }
-
     {{/responses}}
 {{/operation}}
 {{/operations}}

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -27,8 +28,11 @@ public class UserController {
 
     @Operation(description = "")
     @GetMapping("/static")
-    public Response<User> getStaticUser() {
-        return Response.success(new User(1L, "Test", "", 99L));
+    public Response<User> getStaticUser(
+            @Parameter(description = "")
+            @RequestParam("id") Long id
+    ) {
+        return Response.success(new User(id, "Test", "", 99L));
     }
 
     @Operation(description = "Get user by *id*", responses = {

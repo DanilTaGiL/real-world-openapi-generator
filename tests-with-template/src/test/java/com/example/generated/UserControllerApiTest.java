@@ -13,26 +13,24 @@
 
 package com.example.generated;
 
+import com.example.generated.api.UserControllerApi;
+import com.example.generated.model.User;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.ErrorLoggingFilter;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
-import org.example.ApiClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-
-import org.openapitools.client.api.UserControllerApi;
-import org.openapitools.client.model.User;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.function.Function;
 
+import static com.example.generated.GsonObjectMapper.gson;
 import static io.restassured.config.ObjectMapperConfig.objectMapperConfig;
 import static io.restassured.config.RestAssuredConfig.config;
-import static org.example.GsonObjectMapper.gson;
+
 
 /**
  * API tests for UserControllerApi
@@ -40,7 +38,6 @@ import static org.example.GsonObjectMapper.gson;
 @Slf4j
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Disabled
 public class UserControllerApiTest {
 
     private UserControllerApi api;
@@ -104,10 +101,12 @@ public class UserControllerApiTest {
      */
     @Test
     public void shouldSee200AfterGetStaticUser() {
-        var response = api.getStaticUser().executeAs(successAssertions);
+        var id = 1L;
+        var response = api.getStaticUser()
+                .idQuery(id).executeAs(successAssertions);
         // test validations
         var expectedUser = new User();
-        expectedUser.setId(1L);
+        expectedUser.setId(id);
         expectedUser.setFirstName("Test");
         expectedUser.setLastName("");
         expectedUser.setAge(99L);

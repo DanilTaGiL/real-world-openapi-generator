@@ -95,10 +95,12 @@ public class UserControllerApiTest {
      */
     @Test
     public void shouldSee200AfterGetStaticUser() {
-        var response = api.getStaticUser().executeAs(successAssertions);
+        var id = 1L;
+        var response = api.getStaticUser()
+                .idQuery(id).executeAs(successAssertions);
         // test validations
         var expectedUser = new User();
-        expectedUser.setId(1L);
+        expectedUser.setId(id);
         expectedUser.setFirstName("Test");
         expectedUser.setLastName("");
         expectedUser.setAge(99L);

@@ -1,9 +1,13 @@
 package com.example.generator;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.templating.mustache.CaseFormatLambda;
 
 import java.util.*;
 import java.io.File;
+
+import static com.google.common.base.CaseFormat.LOWER_CAMEL;
+import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 
 public class SimpleJavaSpringGenerator extends DefaultCodegen implements CodegenConfig {
   private static final String JAVA_FILE_EXTENSION = ".java";
@@ -48,16 +52,18 @@ public class SimpleJavaSpringGenerator extends DefaultCodegen implements Codegen
 
     Map<String, Object> results = super.postProcessOperationsWithModels(objs, allModels);
 
-    Map<String, Object> ops = (Map<String, Object>)results.get("operations");
-    ArrayList<CodegenOperation> opList = (ArrayList<CodegenOperation>)ops.get("operation");
-
-    // iterate over the operation and perhaps modify something
-    for(CodegenOperation co : opList){
-      // example:
-      // co.httpMethod = co.httpMethod.toLowerCase();
-    }
+    OperationsProcessing.changeReturnBaseType(results); // ByteArray -> Byte
 
     return results;
+  }
+
+  @Override
+  public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+    Map<String, Object> result = super.postProcessAllModels(objs);
+
+    ModelsProcessing.byteArrayReplacement(result);
+
+    return result;
   }
 
   /**
@@ -114,6 +120,9 @@ public class SimpleJavaSpringGenerator extends DefaultCodegen implements Codegen
 
     // add custom properties for using it in templates
     additionalProperties.put("configPackage", configPackage); // used in config_restassured
+
+    // lambdas
+    additionalProperties.put("convert", new CaseFormatLambda(LOWER_CAMEL, UPPER_UNDERSCORE));
   }
 
   public SimpleJavaSpringGenerator() {
@@ -159,7 +168,7 @@ public class SimpleJavaSpringGenerator extends DefaultCodegen implements Codegen
 
   @Override
   public String apiTestFileFolder() {
-    return outputFolder + "/" + testSourceFolder + "/" + testPackage().replace('.', File.separatorChar);
+    return outputFolder + "/" + testSourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
   }
 
   // custom
