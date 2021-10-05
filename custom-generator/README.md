@@ -42,4 +42,19 @@ generator templates as reference, and it will:
 + support files:
   + config_restassured.mustache
 
+### How to use:
+Just run:
+```
+mvn clean install
+```
+After command execution you can find `.jar` file in `target` directory.
+And this is .jar will push in your local maven repository.
 
+And in other projects you can add dependency with this generator, like that:
+```
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>simple-java-spring-openapi-generator</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```

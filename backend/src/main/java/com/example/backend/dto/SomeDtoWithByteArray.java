@@ -11,6 +11,9 @@ import lombok.ToString;
 public class SomeDtoWithByteArray {
     private Long id;
     private String name;
+    /**
+     * For example of nested byte array generation
+     */
     @ToString.Exclude
     private byte[] bytes;
 }

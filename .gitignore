@@ -20,3 +20,4 @@ cypress/support
 *.iml
 /*/target
 /*/out
+/*/openapitools.json

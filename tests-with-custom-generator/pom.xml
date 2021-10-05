@@ -95,18 +95,6 @@
                             <outputDir>${project.basedir}/src/main/resources</outputDir>
                         </configuration>
                     </execution>
-                    <execution>
-                        <id>petstore</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <apiDocsUrl>https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator-gradle-plugin/samples/local-spec/petstore-v3.0.yaml</apiDocsUrl>
-                            <outputFileName>openapi-petstore.yaml</outputFileName>
-                            <outputDir>${project.basedir}/src/main/resources</outputDir>
-                        </configuration>
-                    </execution>
                 </executions>
             </plugin>
 

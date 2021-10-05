@@ -17,6 +17,7 @@ import com.example.generated.api.UserControllerApi;
 import com.example.generated.model.User;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.ErrorLoggingFilter;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
@@ -30,6 +31,7 @@ import java.util.function.Function;
 import static com.example.generated.GsonObjectMapper.gson;
 import static io.restassured.config.ObjectMapperConfig.objectMapperConfig;
 import static io.restassured.config.RestAssuredConfig.config;
+import static io.restassured.http.ContentType.JSON;
 
 
 /**
@@ -46,14 +48,14 @@ public class UserControllerApiTest {
     private final Function<Response, Response> successAssertions = r -> {
         r.prettyPeek();
         r.then().statusCode(200);
-        r.then().contentType("application/json");
+        r.then().contentType(JSON);
         return r;
     };
 
     private final Function<Response, Response> errorAssertions = r -> {
         r.prettyPeek();
         r.then().statusCode(404);
-        r.then().contentType("application/json");
+        r.then().contentType(JSON);
         return r;
     };
 

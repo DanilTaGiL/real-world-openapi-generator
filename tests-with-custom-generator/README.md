@@ -16,8 +16,14 @@ npm install @openapitools/openapi-generator-cli -g
 Other variants of installation you can find [here](https://openapi-generator.tech/docs/installation/)
 
 ## Custom generator usage:
-
-// TODO
+Just add this dependency:
+```
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>simple-java-spring-openapi-generator</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
 
 ### Let's check it out:
 To check the result just run:

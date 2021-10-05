@@ -26,6 +26,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.function.Function;
 
+import static io.restassured.http.ContentType.JSON;
+
 
 /**
  * API tests for UserControllerApi
@@ -43,14 +45,14 @@ public class UserControllerApiTest {
     private final Function<Response, Response> successAssertions = r -> {
         r.prettyPeek();
         r.then().statusCode(200);
-        r.then().contentType("application/json");
+        r.then().contentType(JSON);
         return r;
     };
 
     private final Function<Response, Response> errorAssertions = r -> {
         r.prettyPeek();
         r.then().statusCode(404);
-        r.then().contentType("application/json");
+        r.then().contentType(JSON);
         return r;
     };
 
