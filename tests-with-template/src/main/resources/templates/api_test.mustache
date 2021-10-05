@@ -35,6 +35,8 @@ import static {{invokerPackage}}.{{#gson}}GsonObjectMapper.gson{{/gson}}{{#jacks
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class {{classname}}Test {
 
+    // test custom props from config: {{customProp}}
+
     private {{classname}} api;
 
     @BeforeEach

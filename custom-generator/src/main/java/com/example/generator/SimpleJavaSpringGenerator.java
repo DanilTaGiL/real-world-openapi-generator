@@ -146,6 +146,9 @@ public class SimpleJavaSpringGenerator extends DefaultCodegen implements Codegen
     // enable api prefix/postfix feature
     cliOptions.add(CliOption.newString("apiNamePrefix", "Add prefix to api name"));
     cliOptions.add(CliOption.newString("apiNameSuffix", "Add suffix to api name"));
+
+    // for test
+    cliOptions.add(CliOption.newString("customProp", "Custom prop for test"));
   }
 
   /**

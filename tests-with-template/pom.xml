@@ -144,6 +144,7 @@
                             <configOptions>
                                 <apiNamePrefix>Prefix</apiNamePrefix>
                                 <apiNameSuffix>Suffix</apiNameSuffix>
+                                <customProp>test</customProp>
                             </configOptions>
 
                             <invokerPackage>com.example.generated</invokerPackage>

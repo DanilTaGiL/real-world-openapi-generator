@@ -127,6 +127,7 @@
                             <configOptions>
                                 <apiNamePrefix>Prefix</apiNamePrefix>
                                 <apiNameSuffix>Suffix</apiNameSuffix>
+                                <customProp>test</customProp>
                                 <restassuredGlobalSpec>true</restassuredGlobalSpec>
                             </configOptions>
 
